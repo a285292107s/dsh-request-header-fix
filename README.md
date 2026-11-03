@@ -196,3 +196,7 @@ npm run build     # esbuild 出 lib/index.js（host）与 lib/client.js（browse
 7. 设置 → 插件：不出现本插件自动生成的配置表单。
 8. 打开本页期间在别处改设置：页面不崩溃，冲突重试生效。
 9. 勾选/取消的实时生效时序（volatile 读取）与 `auto: false` 的实际效果。
+
+## 许可
+
+MIT，全文见 [LICENSE](LICENSE)：可以随意使用、修改、再分发、商用，只需保留版权与许可声明；软件按「现状」提供，不附带担保。
