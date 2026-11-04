@@ -23,13 +23,13 @@
 
 环境:DSH `0.2.2-alpha.2`、Node v24.15.0、npm 11.14.1(2026-11-02 核对;之后以 README「环境」为准)。
 
-`npm run build` 是产物不是检查:esbuild 出 `lib/index.js`(host,node ESM)与 `lib/client.js`(browser,lazy-CJS)。`src/` 是唯一真源,`lib/` 只由构建生成、永远不手改;是否入库由我定。`npm run typecheck` 只查 `src/`。
+`npm run build` 是产物不是检查:esbuild 出 `lib/index.js`(host,node ESM)与 `lib/client.js`(browser,lazy-CJS)。`src/` 是唯一真源,`lib/` 只由构建生成、永远不手改;产物入库(见 `docs/adr/0001-commit-lib-output.md`),改 `src/` 后重建并把 `lib/` 一起提交。`npm run typecheck` 只查 `src/`。
 
 生效方式:host 改动要重启 `dsh web` 才加载新 `lib/index.js`(插件目录不在 HMR root 面内),重启只由我做;browser 改动重建后由我刷新页面验收(旧 bundle 可能被缓存)。
 
 ## 提交
 
-建仓、`lib/` 是否入库、怎么提交先问我;沿用参考仓库习惯时用 `feat/fix/docs/chore:` + 中文主语,`src/` 与重建的 `lib/`(若纳入)同一提交。
+建仓、怎么提交先问我;`lib/` 已决定入库(ADR 0001),`src/` 与重建的 `lib/` 必须同一提交。沿用参考仓库习惯时用 `feat/fix/docs/chore:` + 中文主语。
 
 ## 写作
 

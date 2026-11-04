@@ -76,25 +76,30 @@ x-opencode-session: <当前 DSH 会话 UUID>
 
 ## 安装
 
-先在本仓库目录里装依赖、出产物（`link:` 直接指向这个工作副本，`lib/` 必须已经存在）：
+两种装法，都只改 profile；装完都要重启 `dsh web`（host 半边只在进程启动时加载）。
+
+**从 GitHub 装（不用本地构建）：**
+
+```bash
+dsh plugin --profile web add github:a285292107s/dsh-request-header-fix
+```
+
+构建产物 `lib/` 已随源码入库，插件管理器拿到的副本能直接加载。想钉住某个提交就写 `github:a285292107s/dsh-request-header-fix#<commit>`。
+
+**从本地工作副本装（改代码时用）：**
 
 ```bash
 npm install
 npm run typecheck
 npm run build
-```
-
-然后把目录交给插件管理器：
-
-```bash
 dsh plugin --profile web add link:<本仓库的绝对路径>
 ```
 
-`link:` 指向的是这个工作副本（不是 npm 包名）。Windows 上路径写成 `link:C:/Users/<user>/Desktop/dsh-request-header-fix` 这种正斜杠形式。
+`link:` 指向的是这个工作副本（不是 npm 包名），`lib/` 必须已经存在。Windows 上路径写成 `link:C:/Users/<user>/Desktop/dsh-request-header-fix` 这种正斜杠形式。
 
 装完检查 `%USERPROFILE%\.dsh\profiles\web\package.json`：`dsh.profile.bundles` 里应出现 `dsh-request-header-fix`。Loader 行（`- id: request-header-fix`）由本包自己的 `cordis.patch.yml` 提供，插件管理器把它当 profile 层加载，不需要你手改 profile 的 yml。
 
-最后**重启 `dsh web`**。host 半边只在进程启动时加载，不重启看不到分区；重启这一步由你来执行。
+最后**重启 `dsh web`**：host 半边只在进程启动时加载，不重启看不到分区；重启这一步由你来执行。
 
 ## 卸载
 
@@ -146,6 +151,8 @@ npm run build     # esbuild 出 lib/index.js（host）与 lib/client.js（browse
 
 ## 故障排查
 
+**装完报 `Cannot find module .../dsh-request-header-fix/lib/index.js`**：装到的副本里没有入口文件。常见两种：装到了 2026-11-04 之前未提交 `lib/` 的旧提交（换到含 `lib/` 的提交重装），或 `link:` 指向的工作副本还没 `npm run build`（先构建再重新 `add`）。这是本仓库曾经的打包缺口，成因与取舍见 [docs/adr/0001-commit-lib-output.md](docs/adr/0001-commit-lib-output.md)。
+
 **设置页不出现「请求头修正」**：确认 `dsh web` 已重启、profile `package.json` 的 `dsh.profile.bundles` 含本包、本包 patch 提供的 Loader 行没被禁用；再确认本包 `package.json` 的 `dsh.client.inject` 含 `@deepseek-ai/dsh-client-ui-settings`——座位由它提供，缺了注册会静默失效。
 
 **分区排位不对**：本插件用 `order: 12`，靠的是「模型」= 10、「插件」= 15。宿主版本改了内置 order 就会变位，以宿主为准。
@@ -166,7 +173,7 @@ npm run build     # esbuild 出 lib/index.js（host）与 lib/client.js（browse
 
 ## 开发
 
-`src/` 是唯一真源，`lib/` 只由 `npm run build` 生成，不手改。
+`src/` 是唯一真源，`lib/` 只由 `npm run build` 生成，不手改；生成物入库，`src/` 与重建的 `lib/` 必须同一提交（见 [docs/adr/0001-commit-lib-output.md](docs/adr/0001-commit-lib-output.md)）。
 
 `package.json` 的 `exports` 里 `./client` 必须指向 `lib/client.js`：DSH 的 client-modules 按这条导出找浏览器半边，找不到会在客户端模块注册时直接抛错（整个页面可能一起报错），不是只少一个分区。
 

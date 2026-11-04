@@ -1,6 +1,6 @@
 {
   "name": "dsh-request-header-fix",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "license": "MIT",
   "description": "DSH plugin: add x-opencode-session to model requests of selected providers/models.",

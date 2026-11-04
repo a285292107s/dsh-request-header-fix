@@ -2,7 +2,7 @@
 
 为 DeepSeek Harness(DSH)做「请求头修正」独立插件:host 在 `llm/stream` 里按勾选给模型请求补 `x-opencode-session: <会话 UUID>`,browser 在设置弹窗里加「请求头修正」分区;默认全关,安装与回退只改 profile。仓库只有一位维护者,AI 辅助开发,单个 npm 包(不是 workspace)。
 
-当前阶段(2026-11-03):代码已落地(`src/` 真源、`lib/` 双产物由 build 生成),README 已建立并承接长期行为/环境/排查;`任务清单.md` 转为历史任务书,不再逐条执行。已用 `link:` 装进 `web` profile(`dsh.profile.bundles` 含本包、`- id: request-header-fix` Loader 行在位,profile 里已有一项勾选 `mydeepseek` → `deepseek-v4.1f-opencode`);已建公开仓库 `https://github.com/a285292107s/dsh-request-header-fix`(main,`lib/` 不入库,提交邮箱用 GitHub noreply,本机路径已脱敏);真机验收仍未做。
+当前阶段(2026-11-04):代码已落地(`src/` 真源、`lib/` 双产物由 build 生成并随源码入库),README 已建立并承接长期行为/环境/排查;`任务清单.md` 转为历史任务书,不再逐条执行。已用 `link:` 装进 `web` profile(`dsh.profile.bundles` 含本包、`- id: request-header-fix` Loader 行在位,profile 里已有一项勾选 `mydeepseek` → `deepseek-v4.1f-opencode`);已建公开仓库 `https://github.com/a285292107s/dsh-request-header-fix`(main,`lib/` 已入库,可直接用 `github:` URL 安装;提交邮箱用 GitHub noreply,本机路径已脱敏);真机验收仍未做。
 
 ## 优先级与冲突
 
@@ -44,7 +44,7 @@
 - 视觉与文案没有机器门:交付前按任务清单 §4.3 第 7 条与附录 D(令牌)逐条自检。
 - 代码约定、构建产物、提交、写作:见 `docs/CONVENTIONS.md`。
 - 外部契约、参考仓库、社区插件:见 `docs/REFERENCES.md`。
-- 长期归宿:README(行为与边界/环境/排查)与 `docs/adr/`(尚无 ADR,方向级取舍第一次出现时建目录);分家规则见 `docs/CONVENTIONS.md`。
+- 长期归宿:README(行为与边界/环境/排查)与 `docs/adr/`(现有 0001:构建产物入库;方向级取舍第一次出现时建目录);分家规则见 `docs/CONVENTIONS.md`。
 
 ## 非目标与代价
 
@@ -52,4 +52,4 @@
 
 ## 维护本文件
 
-只收不可从代码/README 推断、违反有代价、有门或有人确认的规则;一次性步骤不进;过期即删。任务清单已是历史任务书,不再追改;长期决定进 README/ADR,环境事实(安装状态、勾选)只写在本页「当前阶段」,随变随改。最后核对:2026-11-03。
+只收不可从代码/README 推断、违反有代价、有门或有人确认的规则;一次性步骤不进;过期即删。任务清单已是历史任务书,不再追改;长期决定进 README/ADR,环境事实(安装状态、勾选)只写在本页「当前阶段」,随变随改。最后核对:2026-11-04。
