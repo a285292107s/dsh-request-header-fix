@@ -192,6 +192,8 @@ npm run build     # esbuild 出 lib/index.js（host）与 lib/client.js（browse
 
 离线门的判据：`npm run typecheck` 通过，`npm run build` 自检全绿。负向验证是人工做过的一次性核对（改错 wrapper id 必须失败、改回必须通过），不是 build 的自动用例。
 
+**安装产物（离线，2026-11-04 验证）**：在临时目录 `pnpm add github:a285292107s/dsh-request-header-fix` 装到 0.1.1，解析到 `codeload.github.com/a285292107s/dsh-request-header-fix/tar.gz/329bc70…`；安装副本只有 `lib/`、`cordis.patch.yml`、`README.md`、`LICENSE`、`package.json`（`files` 过滤后应有的样子，没有 `src/`、`scripts/`），`lib/index.js` 可 `import` 出 `Config`/`apply`/`inject`，`lib/client.js` 是 `window.__ModuleLoader__.load({ id: "dsh-request-header-fix" })` 且 factory 返回 `apply` 函数与 `inject` 数组；全程没有触发 pnpm 构建审批。真实 `dsh plugin add` 与重启仍归维护者真机验收。
+
 **真机验收由维护者执行**，以下各项在真实 `dsh web` 里确认前都算未验证：
 
 1. 安装后重启，设置弹窗左侧出现「请求头修正」，位置在「模型」与「插件」之间，点开无报错。
